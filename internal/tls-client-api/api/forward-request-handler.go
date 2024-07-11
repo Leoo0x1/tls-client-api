@@ -6,8 +6,8 @@ import (
 
 	tls_client_cffi_src "github.com/bogdanfinn/tls-client/cffi_src"
 	"github.com/gin-gonic/gin"
-	"github.com/justtrackio/gosoline/pkg/apiserver"
 	"github.com/justtrackio/gosoline/pkg/cfg"
+	"github.com/justtrackio/gosoline/pkg/httpserver"
 	"github.com/justtrackio/gosoline/pkg/log"
 )
 
@@ -20,14 +20,14 @@ func NewForwardedRequestHandler(ctx context.Context, config cfg.Config, logger l
 		logger: logger,
 	}
 
-	return apiserver.CreateJsonHandler(handler), nil
+	return httpserver.CreateJsonHandler(handler), nil
 }
 
 func (fh ForwardedRequestHandler) GetInput() interface{} {
 	return &tls_client_cffi_src.RequestInput{}
 }
 
-func (fh ForwardedRequestHandler) Handle(ctx context.Context, request *apiserver.Request) (*apiserver.Response, error) {
+func (fh ForwardedRequestHandler) Handle(ctx context.Context, request *httpserver.Request) (*httpserver.Response, error) {
 	input, ok := request.Body.(*tls_client_cffi_src.RequestInput)
 
 	if !ok {
@@ -69,5 +69,5 @@ func (fh ForwardedRequestHandler) Handle(ctx context.Context, request *apiserver
 		return handleErrorResponse(fh.logger, sessionId, withSession, err)
 	}
 
-	return apiserver.NewJsonResponse(response), nil
+	return httpserver.NewJsonResponse(response), nil
 }

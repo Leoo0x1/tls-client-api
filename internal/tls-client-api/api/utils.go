@@ -4,11 +4,11 @@ import (
 	http "github.com/bogdanfinn/fhttp"
 	tls_client_cffi_src "github.com/bogdanfinn/tls-client/cffi_src"
 	"github.com/google/uuid"
-	"github.com/justtrackio/gosoline/pkg/apiserver"
+	"github.com/justtrackio/gosoline/pkg/httpserver"
 	"github.com/justtrackio/gosoline/pkg/log"
 )
 
-func handleErrorResponse(logger log.Logger, sessionId string, withSession bool, err *tls_client_cffi_src.TLSClientError) (*apiserver.Response, error) {
+func handleErrorResponse(logger log.Logger, sessionId string, withSession bool, err *tls_client_cffi_src.TLSClientError) (*httpserver.Response, error) {
 	logger.Error("error during api request handling: %w", err)
 
 	resp := tls_client_cffi_src.Response{
@@ -23,7 +23,7 @@ func handleErrorResponse(logger log.Logger, sessionId string, withSession bool, 
 		resp.SessionId = sessionId
 	}
 
-	return apiserver.NewJsonResponse(resp), nil
+	return httpserver.NewJsonResponse(resp), nil
 }
 
 func buildCookies(cookies []tls_client_cffi_src.Cookie) []*http.Cookie {

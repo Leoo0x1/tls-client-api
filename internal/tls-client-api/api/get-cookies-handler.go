@@ -9,7 +9,7 @@ import (
 	tls_client_cffi_src "github.com/bogdanfinn/tls-client/cffi_src"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/justtrackio/gosoline/pkg/apiserver"
+	"github.com/justtrackio/gosoline/pkg/httpserver"
 	"github.com/justtrackio/gosoline/pkg/cfg"
 	"github.com/justtrackio/gosoline/pkg/log"
 )
@@ -23,14 +23,14 @@ func NewGetCookiesHandler(ctx context.Context, config cfg.Config, logger log.Log
 		logger: logger,
 	}
 
-	return apiserver.CreateJsonHandler(handler), nil
+	return httpserver.CreateJsonHandler(handler), nil
 }
 
 func (fh GetCookiesHandler) GetInput() interface{} {
 	return &tls_client_cffi_src.GetCookiesFromSessionInput{}
 }
 
-func (fh GetCookiesHandler) Handle(ctx context.Context, request *apiserver.Request) (*apiserver.Response, error) {
+func (fh GetCookiesHandler) Handle(ctx context.Context, request *httpserver.Request) (*httpserver.Response, error) {
 	input, ok := request.Body.(*tls_client_cffi_src.GetCookiesFromSessionInput)
 
 	if !ok {
@@ -65,5 +65,5 @@ func (fh GetCookiesHandler) Handle(ctx context.Context, request *apiserver.Reque
 		return handleErrorResponse(fh.logger, input.SessionId, true, clientErr)
 	}
 
-	return apiserver.NewJsonResponse(jsonResponse), nil
+	return httpserver.NewJsonResponse(jsonResponse), nil
 }

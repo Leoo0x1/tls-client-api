@@ -3,6 +3,7 @@ env: dev
 app_project: tls-client
 app_family: tls-client
 app_name: api
+app_group: tls-client
 
 log:
   handlers:

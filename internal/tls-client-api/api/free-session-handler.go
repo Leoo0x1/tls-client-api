@@ -7,8 +7,8 @@ import (
 	tls_client_cffi_src "github.com/bogdanfinn/tls-client/cffi_src"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/justtrackio/gosoline/pkg/apiserver"
 	"github.com/justtrackio/gosoline/pkg/cfg"
+	"github.com/justtrackio/gosoline/pkg/httpserver"
 	"github.com/justtrackio/gosoline/pkg/log"
 )
 
@@ -21,14 +21,14 @@ func NewFreeSessionHandler(ctx context.Context, config cfg.Config, logger log.Lo
 		logger: logger,
 	}
 
-	return apiserver.CreateJsonHandler(handler), nil
+	return httpserver.CreateJsonHandler(handler), nil
 }
 
 func (fh FreeSessionHandler) GetInput() interface{} {
 	return &tls_client_cffi_src.DestroySessionInput{}
 }
 
-func (fh FreeSessionHandler) Handle(ctx context.Context, request *apiserver.Request) (*apiserver.Response, error) {
+func (fh FreeSessionHandler) Handle(ctx context.Context, request *httpserver.Request) (*httpserver.Response, error) {
 	input, ok := request.Body.(*tls_client_cffi_src.DestroySessionInput)
 
 	if !ok {
@@ -43,5 +43,5 @@ func (fh FreeSessionHandler) Handle(ctx context.Context, request *apiserver.Requ
 		Success: true,
 	}
 
-	return apiserver.NewJsonResponse(out), nil
+	return httpserver.NewJsonResponse(out), nil
 }
