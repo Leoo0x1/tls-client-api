@@ -21,11 +21,10 @@ sentry:
     project: tls-client
     component: tls-client-api
 
-api:
-  port: 8080
-  mode: release
-  health:
-    port: 8081
+httpserver:
+  default:
+    port: 8080
+    mode: release
   timeout:
     read: 120s
     write: 120s
